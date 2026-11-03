@@ -739,6 +739,9 @@ export const HALL_EPILOGUE = {
   ],
 };
 
+// Shown at the very bottom of the Hall of Fame.
+export const BUILT_WITH = "Built entirely by voice — every line, every sprite prompt, every bug fix spoken, not typed.";
+
 export const LETS_TALK = {
   title: "LET'S TALK",
   lines: [

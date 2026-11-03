@@ -32,6 +32,7 @@ export default function App() {
   const [overlay, setOverlay] = useState(null);
   const [progress, setProgress] = useState(EMPTY);
   const [playerId, setPlayerId] = useState(null);
+  const [shortVersion, setShortVersion] = useState(false);
 
   // Load save: backend first, localStorage fallback
   useEffect(() => {
@@ -182,6 +183,10 @@ export default function App() {
           hasSave={!!progress.starter}
           onNew={startNew}
           onContinue={startContinue}
+          onShortVersion={() => {
+            setShortVersion(true);
+            setScreen("hall");
+          }}
         />
       )}
 
@@ -226,8 +231,19 @@ export default function App() {
       {screen === "hall" && (
         <HallOfFame
           progress={progress}
-          onMap={() => setScreen("map")}
-          onRestart={startNew}
+          shortVersion={shortVersion}
+          onMap={() => {
+            setShortVersion(false);
+            setScreen("map");
+          }}
+          onRestart={() => {
+            setShortVersion(false);
+            startNew();
+          }}
+          onPlay={() => {
+            setShortVersion(false);
+            progress.starter ? startContinue() : startNew();
+          }}
         />
       )}
 

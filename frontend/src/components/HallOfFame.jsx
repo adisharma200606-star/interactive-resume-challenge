@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { PixelSprite } from "./PixelSprite";
-import { CHAPTERS, HALL_STATS, WEAKNESSES, LETS_TALK, PLAYER, TYPE_COLORS, META, HALL_MENTORS, HALL_EPILOGUE, EVOLUTIONS, INTERESTS } from "../data/story";
+import { CHAPTERS, HALL_STATS, WEAKNESSES, LETS_TALK, PLAYER, TYPE_COLORS, META, HALL_MENTORS, HALL_EPILOGUE, EVOLUTIONS, INTERESTS, BUILT_WITH } from "../data/story";
 import { chip } from "../audio/chiptune";
 
-export default function HallOfFame({ progress, onMap, onRestart }) {
+export default function HallOfFame({ progress, onMap, onRestart, shortVersion = false, onPlay }) {
   const [confirmRestart, setConfirmRestart] = useState(false);
 
   const badgeChapters = CHAPTERS.filter((c) => c.badge);
+  // In the short version, everything is shown unlocked: the reader skipped the game, not the story.
+  const hasBadge = (id) => shortVersion || progress.badges.includes(id);
+  const hasMet = (id) => shortVersion || (progress.interests || []).includes(id);
 
   return (
     <div className="scene scene-hall" data-testid="hall-screen">
@@ -14,10 +17,33 @@ export default function HallOfFame({ progress, onMap, onRestart }) {
         <h2 className="scene-heading" data-testid="hall-title">HALL OF FAME</h2>
         <p className="scene-sub">every badge, every receipt, every scar — displayed with equal pride</p>
 
+        {shortVersion && (
+          <div className="hall-section short-version" data-testid="hall-short-version">
+            <h3>THE 2-MINUTE VERSION</h3>
+            <p className="scene-sub">every chapter, what went wrong, and what it taught him</p>
+            <ol className="short-list">
+              {CHAPTERS.filter((c) => c.lessonLog).map((c) => (
+                <li key={c.id} data-testid={`short-${c.id}`}>
+                  <b>{c.company}</b>
+                  {c.role ? <span className="short-role"> · {c.role}</span> : null}
+                  {c.fact ? <span className="short-fact">{c.fact}</span> : null}
+                  <span className="short-what">✗ {c.lessonLog.what}</span>
+                  <span className="short-why">→ {c.lessonLog.why}</span>
+                </li>
+              ))}
+            </ol>
+            {onPlay && (
+              <button className="btn-pix small" data-testid="hall-play-full" onClick={() => { chip.sfx("select"); onPlay(); }}>
+                GOT TIME AFTER ALL? PLAY THE FULL STORY ▸
+              </button>
+            )}
+          </div>
+        )}
+
         <div className="hall-badges" data-testid="hall-badges">
           {badgeChapters.map((c) => (
-            <div key={c.id} className={`badge-card ${progress.badges.includes(c.id) ? "" : "locked"}`} data-testid={`hall-badge-${c.id}`}>
-              <span className="badge-circ" style={{ background: progress.badges.includes(c.id) ? c.badge.color : "#3a3226" }} />
+            <div key={c.id} className={`badge-card ${hasBadge(c.id) ? "" : "locked"}`} data-testid={`hall-badge-${c.id}`}>
+              <span className="badge-circ" style={{ background: hasBadge(c.id) ? c.badge.color : "#3a3226" }} />
               <span className="badge-name">{c.badge.name}</span>
             </div>
           ))}
@@ -38,7 +64,7 @@ export default function HallOfFame({ progress, onMap, onRestart }) {
           <p className="scene-sub">the side of him no résumé has a field for</p>
           <div className="companion-grid">
             {INTERESTS.map((it) => {
-              const met = (progress.interests || []).includes(it.id);
+              const met = hasMet(it.id);
               return (
                 <div key={it.id} className={`companion-card ${met ? "" : "locked"}`} data-testid={`hall-companion-${it.id}`}>
                   <PixelSprite name={it.companion.sprite} scale={4} className={met ? "bob" : "silhouette"} />
@@ -149,6 +175,7 @@ export default function HallOfFame({ progress, onMap, onRestart }) {
             </a>
           ))}
         </div>
+        {BUILT_WITH && <p className="hall-built" data-testid="hall-built-with">{BUILT_WITH}</p>}
         <p className="title-foot">{PLAYER.blurb} · type: {Object.keys(TYPE_COLORS).length} types, all heart</p>
       </div>
     </div>

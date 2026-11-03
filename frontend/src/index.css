@@ -1884,3 +1884,21 @@ a.btn-pix {
   margin-top: 6px;
   text-decoration: none;
 }
+
+/* ---- Short version (title → hall) ---- */
+.short-version-btn { margin-top: 4px; opacity: 0.92; }
+.short-list { margin: 8px 0 12px; padding-left: 22px; text-align: left; }
+.short-list li { margin: 0 0 12px; line-height: 1.25; }
+.short-list li > span { display: block; }
+.short-role { display: inline !important; opacity: 0.8; }
+.short-fact { opacity: 0.75; font-size: 0.92em; }
+.short-what { margin-top: 2px; }
+.short-why { font-weight: bold; }
+.hall-built { text-align: center; opacity: 0.8; font-size: 15px; margin: 14px 0 4px; }
+
+/* Keep all four title sprites on screen on phones */
+@media (max-width: 560px) {
+  .title-starters { gap: 6px; max-width: 100%; justify-content: center; }
+  .title-starters .px-sprite { width: 64px !important; height: 64px !important; }
+  .title-starters > :nth-child(2) { transform: scale(1.15); margin: 0 4px; }
+}

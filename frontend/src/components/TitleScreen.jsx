@@ -2,7 +2,7 @@ import { useState } from "react";
 import { chip } from "../audio/chiptune";
 import { PixelSprite } from "./PixelSprite";
 
-export default function TitleScreen({ hasSave, onNew, onContinue }) {
+export default function TitleScreen({ hasSave, onNew, onContinue, onShortVersion }) {
   const [stage, setStage] = useState("press");
   const [confirmNew, setConfirmNew] = useState(false);
 
@@ -69,6 +69,19 @@ export default function TitleScreen({ hasSave, onNew, onContinue }) {
           >
             {hasSave ? "NEW GAME" : "START JOURNEY"}
           </button>
+          {onShortVersion && !confirmNew && (
+            <button
+              className="btn-pix small short-version-btn"
+              data-testid="btn-short-version"
+              onClick={(e) => {
+                e.stopPropagation();
+                chip.sfx("select");
+                onShortVersion();
+              }}
+            >
+              SHORT ON TIME? READ THE 2-MINUTE VERSION ▸
+            </button>
+          )}
           {confirmNew && (
             <div className="confirm-erase" data-testid="confirm-erase">
               <p>Erase your save and start over?</p>
