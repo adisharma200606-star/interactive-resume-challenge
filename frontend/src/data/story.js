@@ -740,14 +740,14 @@ export const HALL_EPILOGUE = {
 };
 
 // Shown at the very bottom of the Hall of Fame.
-export const BUILT_WITH = "Built entirely by voice — every line, every sprite prompt, every bug fix spoken, not typed.";
+export const BUILT_WITH = "Built entirely by voice with Wispr Flow, on Emergent — every line, every sprite prompt, every bug fix spoken, not typed.";
 
 export const LETS_TALK = {
   title: "LET'S TALK",
   lines: [
-    "Most people send a résumé. I sent a save file.",
+    "Wispr, you asked for a story told by voice. Most people send a résumé. I sent a save file.",
     "The badges are what I've done. The party — the guitar, the books, the right wing, the iron, the workbench — is who I am.",
-    "If any of this felt like someone you'd want on your team, I'd love to hear from you.",
+    "Every word of it was spoken into Flow first. If this felt like someone you'd want building with you, I'd love to hear from you.",
   ],
   sign: "— ADI SHARMA · adisharma200606@gmail.com",
   email: "adisharma200606@gmail.com",

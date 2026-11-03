@@ -111,7 +111,7 @@ export default function TitleScreen({ hasSave, onNew, onContinue, onShortVersion
         </div>
       )}
 
-      <p className="title-foot">a résumé you can play</p>
+      <p className="title-foot">a résumé you can play · made for the Wispr Flow × Emergent challenge</p>
     </div>
   );
 }
